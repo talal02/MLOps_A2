@@ -8,12 +8,26 @@ pipeline {
     }
     stage('Run') {
       steps {
-        bat 'docker image rm mlops_a2 || echo Image mlops_a2 Already Removed'
-        bat 'docker stop mlops_a2 || docker rm mlops_a2 || echo done'
-        bat 'echo bingo!'
-        bat 'docker build -t mlops_a2 .'
-        echo 'Running docker image'
-        bat 'docker run --name mlops_a2 -p 8000:5000 mlops_a2'
+        script {
+          try {
+            bat 'docker stop mlops_a2'
+          } catch(err) {
+            try {
+              bat 'docker rm mlops_a2'
+            } catch(err) {
+              bat 'echo done'
+            }
+          }
+          try {
+            bat 'docker image rm mlops_a2'
+          } catch (err) {
+            bat 'echo Image mlops_a2 Already Removed'
+          }
+          bat 'echo bingo!'
+          bat 'docker build -t mlops_a2 .'
+          echo 'Running docker image'
+          bat 'docker run --name mlops_a2 -p 8000:5000 mlops_a2'
+        }
       }
     }
   }
