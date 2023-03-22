@@ -2,7 +2,7 @@ name: Pylint
 
 on: 
   push:
-    branches: [Ahmeds_branch]
+    branches: [ahmeds-branch]
 
 jobs:
   build:
