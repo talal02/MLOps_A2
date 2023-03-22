@@ -26,8 +26,8 @@ pipeline {
           }
           bat 'echo bingo!'
           bat 'docker build -t mlops_a2 .'
-          bat 'docker tag mlops_a2:1.0 talal02/mlops_a2:1.0'
-          bat 'docker push talal02/mlops_a2:1.0'
+          bat 'docker tag mlops_a2 talal02/mlops_a2'
+          bat 'docker push talal02/mlops_a2'
           echo 'Running docker image'
           bat 'docker run --name mlops_a2 -p 8000:5000 mlops_a2'
         }
