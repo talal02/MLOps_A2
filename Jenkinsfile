@@ -14,7 +14,7 @@ pipeline {
           } catch(err) {
             try {
               bat 'docker rm mlops_a2'
-            } catch(err) {
+            } catch(err1) {
               bat 'echo done'
             }
           }
