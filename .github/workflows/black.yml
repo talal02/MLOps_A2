@@ -2,7 +2,7 @@
   
   on:
     push:
-      branches: [talal_branch]
+      branches: [talal_branch, ahmeds-branch]
       
   jobs:
     build:
