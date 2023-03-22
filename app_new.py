@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from flask import Flask, render_template
 from datetime import datetime
-
+# a single comment
 app = Flask(__name__)
 model = ARIMAResults.load('ARIMA_model.pkl')
 
