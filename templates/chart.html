@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<title>Chartjs Charts</title>
+</head>
+
+<body>
+	<div style="height: 90vh; width: 90%;">
+		<canvas id="myChart"></canvas>
+	</div>
+
+	<script>
+		let labels = [];
+		let data = [];
+		let realdata = [];
+		let myChart = null;
+		let setChart = false;
+		setInterval(() => {
+					let dataAvl1 = false;
+					let dataAvl2 = false;
+					const currentDate = new Date();
+					let timestamp = currentDate.getTime();
+					timestamp = timestamp / 1000;
+					console.log(timestamp);
+					fetch('/predict/'+String(timestamp))
+					.then(response => response.json())
+					.then(res => data.push(res))
+					.then(() => dataAvl1 = true));
+
+					fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT')
+					.then(response => response.json())
+					.then(res => realdata.push(res.price))
+					.then(() => dataAvl2 = true));
+
+			    async function wait() {
+						while(!dataAvl1 || !dataAvl2) {
+							await new Promise(resolve => setTimeout(resolve, 100));
+						}	
+					}
+
+					if(!setChart) {
+						const finaldata = {
+							labels: labels,
+							datasets: [
+								{
+									label: 'Predicted Price',
+									data: data,
+									backgroundColor: 'rgba(255, 99, 132, 0.2)',
+									borderColor: 'rgba(255, 99, 132, 1)',
+									borderWidth: 1
+								},
+								{
+									label: 'Real Price',
+									data: realdata,
+									backgroundColor: 'rgba(255, 99, 132, 0.2)',
+									borderColor: 'rgba(255, 99, 132, 1)',
+									borderWidth: 1
+								}
+							]
+						};
+						const config = {
+							type: 'line',
+							data: finaldata,
+							options: {}
+						};
+						myChart = new Chart(
+								document.getElementById('myChart'),
+								config
+						);
+						console.log(myChart.data);
+						setChart = true;
+					} else {
+						myChart.data.labels.push(labels[labels.length-1]);
+						myChart.data.datasets[0].data.push(data[data.length-1]);
+						myChart.data.datasets[1].data.push(realdata[realdata.length-1]);
+						myChart.update();
+					}
+
+		}, 5000);
+	</script>
+</body>
+</html>
