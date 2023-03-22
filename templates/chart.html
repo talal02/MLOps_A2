@@ -21,7 +21,6 @@
 					const currentDate = new Date();
 					let timestamp = currentDate.getTime();
 					labels.push(new Date(timestamp).toLocaleTimeString());
-					timestamp = timestamp / 1000;
 					fetch('/predict/'+String(timestamp))
 					.then(response => response.json())
 					.then(res => data.push(res))
