@@ -1,8 +1,9 @@
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from flask import Flask, render_template
+from drift_email import send_mail
 from datetime import datetime
-
+import pandas as pd
 regressor = None
 labels = []
 data = []
@@ -16,6 +17,11 @@ def home():
     return render_template(
         'chart.html'
     )
+
+@app.route('/send_mail')
+def send():
+    send_mail()
+    return "done"
 
 
 @app.route('/predict/<time_stamp>')

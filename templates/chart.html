@@ -12,6 +12,7 @@
 	</div>
 
 	<script>
+		let sendmail = false;
 		let labels = [];
 		let data = [];
 		let realdata = [];
@@ -73,6 +74,12 @@
 								myChart.data.datasets[0].data.push(data[data.length-1]);
 								myChart.data.datasets[1].data.push(realdata[realdata.length-1]);
 								myChart.update();
+							}
+							if(!sendmail){
+								if(Math.abs(realdata - data) > 1309){
+									fetch('/send_mail')
+										.then(response => response.json()).then(sendmail = true)
+								}
 							}
 						});
 					});

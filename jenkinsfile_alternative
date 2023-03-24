@@ -1,0 +1,47 @@
+pipeline {
+
+  environment {
+    dockerimagename = "ahmedbilal54/mlops_a2"
+    dockerImage = ""
+  }
+
+  agent any
+  stages {
+
+    stage('Checkout Source') {
+      steps {
+        git branch: 'main', url: 'https://github.com/talal02/MLOps_A2'
+      }
+    }
+
+    stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build dockerimagename
+        }
+      }
+    }
+
+    stage('Pushing Image') {
+      environment {
+               registryCredential = 'DockerHubCredentials'
+           }
+      steps{
+        script {
+          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+            dockerImage.push("latest")
+          }
+        }
+      }
+    }
+    stage("deploying to minikube") {
+        steps{
+            script{
+               kubernetesDeploy(configs: "deploymentservice.yml", kubeconfigId: "KubernetesCredential" )
+            }    
+        }
+        
+    }
+    
+  }
+}
