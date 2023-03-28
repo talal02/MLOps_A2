@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mlops-a2_deployment
+  name: mlops-a2-deployment
   labels:
     app: mlops-a2
 spec:
