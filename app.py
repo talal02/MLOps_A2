@@ -7,7 +7,7 @@ import pandas as pd
 regressor = None
 labels = []
 data = []
-#sdfa
+
 app = Flask(__name__)
 
 
