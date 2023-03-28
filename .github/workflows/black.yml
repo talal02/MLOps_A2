@@ -1,8 +1,8 @@
   name: Black Formatter
   
   on:
-    push:
-      branches: [talal_branch, ahmeds-branch, main]
+    pull_request:
+      branches: ${{ env.BRANCH }} 
       
   jobs:
     build:
