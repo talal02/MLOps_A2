@@ -2,7 +2,7 @@
   
   on:
     pull_request:
-      branches: ${{ env.BRANCH }} 
+      branches: ${{ github.ref.name }} 
       
   jobs:
     build:
